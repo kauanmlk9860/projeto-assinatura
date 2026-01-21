@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Assinatura Digital</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Sistema de Assinatura Digital</h1>
+            <p>Processe documentos Word com assinatura digital e converta para PDF</p>
+        </header>
+
+        <main>
+            <form id="documentForm" enctype="multipart/form-data">
+                <!-- Upload de Documentos -->
+                <section class="upload-section">
+                    <h2>📄 Documentos Word</h2>
+                    <div class="file-upload">
+                        <input type="file" id="documents" name="documents" multiple accept=".docx" required>
+                        <label for="documents" class="file-label">
+                            <span class="file-icon">📁</span>
+                            Selecionar Documentos (.docx)
+                        </label>
+                        <div id="documentsList" class="files-list"></div>
+                    </div>
+                    
+                    <!-- Botão para testar detecção -->
+                    <div class="test-detection">
+                        <button type="button" id="testDetection" class="test-btn">
+                            🔍 Testar Detecção de Assinaturas
+                        </button>
+                        <div id="detectionResults" class="detection-results" style="display: none;"></div>
+                    </div>
+                </section>
+
+                <!-- Assinatura -->
+                <section class="signature-section">
+                    <h2>✍️ Assinatura</h2>
+                    <div class="signature-tabs">
+                        <button type="button" class="tab-btn active" data-tab="draw">Desenhar</button>
+                        <button type="button" class="tab-btn" data-tab="upload">Upload</button>
+                    </div>
+
+                    <!-- Desenhar Assinatura -->
+                    <div id="draw-tab" class="tab-content active">
+                        <div class="canvas-container">
+                            <canvas id="signatureCanvas" width="400" height="150"></canvas>
+                            <div class="canvas-controls">
+                                <button type="button" id="clearCanvas">🗑️ Limpar</button>
+                                <button type="button" id="undoCanvas">↶ Desfazer</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upload de Assinatura -->
+                    <div id="upload-tab" class="tab-content">
+                        <div class="file-upload">
+                            <input type="file" id="signatureFile" name="signature" accept="image/*">
+                            <label for="signatureFile" class="file-label">
+                                <span class="file-icon">🖼️</span>
+                                Selecionar Imagem da Assinatura
+                            </label>
+                            <div id="signaturePreview" class="signature-preview"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Botão de Processar -->
+                <section class="process-section">
+                    <button type="submit" id="processBtn" class="process-btn">
+                        <span class="btn-text">🚀 Processar Documentos</span>
+                        <div class="loading-spinner"></div>
+                    </button>
+                </section>
+            </form>
+
+            <!-- Resultados -->
+            <section id="results" class="results-section" style="display: none;">
+                <h2>📥 Documentos Processados</h2>
+                <div id="downloadLinks" class="download-links"></div>
+            </section>
+
+            <!-- Mensagens -->
+            <div id="messages" class="messages"></div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
