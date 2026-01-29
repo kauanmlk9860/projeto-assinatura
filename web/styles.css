@@ -552,7 +552,37 @@ body {
 
 .upload-zone p {
   color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.upload-features {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
   margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.feature-item i {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-500);
+}
+
+.upload-buttons {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 /* ===== FILES PREVIEW ===== */

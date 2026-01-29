@@ -34,7 +34,7 @@
 ## ✨ Funcionalidades
 
 ### 🎯 **Principais**
-- ✅ **Upload Seguro** - Múltiplos documentos Word (.docx) até 10MB cada
+- ✅ **Upload Seguro** - Múltiplos documentos Word (.docx) até 150 arquivos
 - ✅ **Detecção Automática** - Localiza marcadores de assinatura inteligentemente
 - ✅ **Assinatura Dupla** - Desenho no canvas HTML5 ou upload de imagem
 - ✅ **Processamento Real-time** - Conversão instantânea com validação
@@ -139,7 +139,7 @@ NODE_ENV=production npm start
 
 | Passo | Ação | Descrição |
 |-------|------|-----------|
-| **1️⃣** | **Upload** | Selecione documentos .docx (máx. 10MB cada) |
+| **1️⃣** | **Upload** | Selecione documentos .docx (até 150 arquivos, máx. 10MB cada) |
 | **2️⃣** | **Assinatura** | Desenhe no canvas ou faça upload de imagem |
 | **3️⃣** | **Revisão** | Confirme documentos e assinatura |
 | **4️⃣** | **Download** | Receba PDFs assinados instantaneamente |
@@ -204,7 +204,7 @@ graph TD
 | Proteção | Configuração | Descrição |
 |----------|--------------|-----------|
 | **Rate Limit Geral** | 100 req/15min | Proteção contra spam |
-| **Rate Limit Upload** | 10 uploads/5min | Controle de uploads |
+| **Rate Limit Upload** | 3 uploads/15min | Controle de uploads para lotes grandes |
 | **Tamanho Máximo** | 10MB por arquivo | Prevenção de sobrecarga |
 | **Tipos Permitidos** | .docx, .png, .jpg | Validação rigorosa |
 | **Cleanup** | 5 segundos | Limpeza automática |
@@ -380,7 +380,7 @@ curl -X POST -F "documents=@test.docx" \
 | **Memória** | ~100MB por conversão | Uso de RAM durante processamento |
 | **Concorrência** | Múltiplos usuários | Suporte simultâneo |
 | **Cleanup** | 5 segundos | Limpeza automática de arquivos |
-| **Throughput** | 10 docs/min | Capacidade máxima recomendada |
+| **Capacidade Máxima** | 150 arquivos por lote | Processamento em lote otimizado |
 
 ### 🚀 **Otimizações**
 

@@ -119,6 +119,8 @@ class DocuSignPro {
         if (documentsInput) {
             documentsInput.addEventListener('change', (e) => {
                 this.handleFileSelect(e.target.files);
+                // Reset input para permitir selecionar os mesmos arquivos novamente
+                e.target.value = '';
             });
         }
 
@@ -273,8 +275,24 @@ class DocuSignPro {
             return;
         }
 
-        // Add new files to existing documents
+        // Verificar se algum arquivo já existe
+        const duplicates = [];
+        const uniqueFiles = [];
+        
         newFiles.forEach(file => {
+            const isDuplicate = this.documents.some(existingFile => 
+                existingFile.name === file.name && existingFile.size === file.size
+            );
+            
+            if (isDuplicate) {
+                duplicates.push(file.name);
+            } else {
+                uniqueFiles.push(file);
+            }
+        });
+
+        // Adicionar apenas arquivos únicos
+        uniqueFiles.forEach(file => {
             const id = Date.now() + Math.random();
             file.id = id;
             this.documents.push(file);
@@ -284,7 +302,15 @@ class DocuSignPro {
 
         this.displayFiles();
         this.validateStep1();
-        this.showNotification(`${newFiles.length} documento(s) adicionado(s)`, 'success');
+        
+        // Mostrar notificações apropriadas
+        if (uniqueFiles.length > 0) {
+            this.showNotification(`${uniqueFiles.length} documento(s) adicionado(s)`, 'success');
+        }
+        
+        if (duplicates.length > 0) {
+            this.showNotification(`${duplicates.length} arquivo(s) duplicado(s) ignorado(s)`, 'warning');
+        }
     }
 
     displayFiles() {
@@ -1344,7 +1370,11 @@ class DocuSignPro {
         
         // Initialize progress
         if (progressText) {
-            progressText.textContent = `Processando ${this.documents.length} documentos...`;
+            if (this.documents.length > 20) {
+                progressText.textContent = `Processando lote grande de ${this.documents.length} documentos... Isso pode levar alguns minutos.`;
+            } else {
+                progressText.textContent = `Processando ${this.documents.length} documentos...`;
+            }
         }
         if (batchProgress) {
             batchProgress.style.width = '25%';
@@ -1382,11 +1412,17 @@ class DocuSignPro {
 
             console.log('Enviando requisição para:', `${this.API_BASE}/process-documents`);
             
-            // Process documents
+            // Process documents com timeout aumentado para lotes grandes
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutos
+            
             const response = await fetch(`${this.API_BASE}/process-documents`, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                signal: controller.signal
             });
+            
+            clearTimeout(timeoutId);
 
             const result = await response.json();
             console.log('Resposta do servidor:', result);
@@ -1402,7 +1438,13 @@ class DocuSignPro {
 
         } catch (error) {
             console.error('Erro no processamento:', error);
-            this.showNotification(`Erro: ${error.message}`, 'error');
+            
+            let errorMessage = error.message;
+            if (error.name === 'AbortError') {
+                errorMessage = `Timeout: O processamento de ${this.documents.length} documentos demorou mais que 5 minutos. Tente processar em lotes menores.`;
+            }
+            
+            this.showNotification(`Erro: ${errorMessage}`, 'error');
         } finally {
             // Hide loading
             processBtn.disabled = false;

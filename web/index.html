@@ -83,13 +83,33 @@
                 <div class="upload-icon">
                     <i data-lucide="upload-cloud"></i>
                 </div>
-                <h3>Arraste arquivos aqui ou clique para selecionar</h3>
-                <p>Suporte para múltiplos arquivos .docx (máx. 10MB cada)</p>
+                <h3>Arraste múltiplos arquivos aqui ou clique para selecionar</h3>
+                <p><strong>Suporte para até 150 arquivos .docx</strong> (máx. 10MB cada)</p>
+                <div class="upload-features">
+                    <div class="feature-item">
+                        <i data-lucide="files"></i>
+                        <span>Até 150 arquivos</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="file-text"></i>
+                        <span>Apenas .docx</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="hard-drive"></i>
+                        <span>Máx. 10MB cada</span>
+                    </div>
+                </div>
                 <input type="file" id="documents" multiple accept=".docx" hidden>
-                <button type="button" class="btn-secondary" onclick="document.getElementById('documents').click()">
-                    <i data-lucide="folder-open"></i>
-                    Selecionar Arquivos
-                </button>
+                <div class="upload-buttons">
+                    <button type="button" class="btn-primary" onclick="document.getElementById('documents').click()">
+                        <i data-lucide="folder-open"></i>
+                        Selecionar Múltiplos Arquivos
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="document.getElementById('documents').click()">
+                        <i data-lucide="file-plus"></i>
+                        Adicionar Mais Arquivos
+                    </button>
+                </div>
             </div>
 
             <div id="filesList" class="files-preview">
